@@ -45,6 +45,7 @@ feed_uri = calendar_client.GetCalendarEventFeedUri(calendar=username, visibility
 days = {}
 weekends = {}
 total = timedelta()
+comments = {}
 
 param = 0
 if (len(sys.argv) > 1):
@@ -62,16 +63,18 @@ for i, an_event in enumerate(feed.entry):
       total += duration
       if (start.day not in days):
          days[start.day] = timedelta()
+         comments[start.day] = ''
       days[start.day] += duration
+      comments[start.day] += an_event.content.text + ' ' if an_event.content.text else ''
       if (start.weekday() in [5,6]):
          weekends[start.day] = 1
 
 hday = timedelta(hours=8)
 for day in days:
     if (hday <= days[day]):
-        print "Dia %02d: %8s ( %s)" % (day, days[day], days[day] - hday)
+        print "Dia %02d: %8s ( %s) %s" % (day, days[day], days[day] - hday, comments[day])
     else:
-        print "Dia %02d: %8s (-%s)" % (day, days[day], hday - days[day])
+        print "Dia %02d: %8s (-%s) %s" % (day, days[day], hday - days[day], comments[day])
 
 print ''
 
