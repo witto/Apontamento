@@ -70,7 +70,7 @@ for i, an_event in enumerate(feed.entry):
          weekends[start.day] = 1
 
 hday = timedelta(hours=8)
-for day in days:
+for day in sorted(days.keys()):
     if (hday <= days[day]):
         print "Dia %02d: %8s ( %s) %s" % (day, days[day], days[day] - hday, comments[day])
     else:
