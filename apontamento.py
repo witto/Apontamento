@@ -111,10 +111,13 @@ for an_event in feed['items']:
 
 hday = timedelta(hours=8)
 for day in sorted(days.keys()):
-    if (hday <= days[day]):
-        print "Dia %02d: %8s ( %s) %s" % (day, days[day], days[day] - hday, comments[day])
+    if (day in weekends.keys()):
+        duration = days[day]
+    elif (hday <= days[day]):
+        duration = days[day] - hday
     else:
-        print "Dia %02d: %8s (-%s) %s" % (day, days[day], hday - days[day], comments[day])
+        duration = "-%s" % (hday - days[day])
+    print "Dia %02d: %8s (%8s) %s" % (day, days[day], duration, comments[day])
 
 print ''
 
